@@ -3,242 +3,146 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>DATA DIRI KUNJUNGAN</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<style>
-*{box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-body{margin:0;min-height:100vh;background:linear-gradient(135deg,#0b0014,#1a002b,#000);display:flex;justify-content:center;align-items:center;color:#fff;}
-.card{width:100%;max-width:480px;background:rgba(25,0,40,.88);padding:22px;border-radius:18px;box-shadow:0 0 30px rgba(160,0,255,.35);}
-h1{text-align:center;color:#d9a8ff;letter-spacing:2px}
-.logo{width:90px;display:block;margin:0 auto 10px;border-radius:10px}
-input,select,button{width:100%;margin:6px 0 14px;padding:11px;border-radius:10px;border:none}
-input,select{background:#22003a;color:#fff}
-button{background:linear-gradient(135deg,#7b00ff,#b700ff);color:#fff;font-weight:bold;cursor:pointer}
-.secondary{background:linear-gradient(135deg,#444,#222)}
-video{width:100%;border-radius:12px;margin-bottom:12px}
-#photo{width:120px;height:160px;object-fit:cover;display:none;margin:0 auto 12px;border-radius:10px}
-input.error,select.error{border:2px solid red}
+<title>Login Admin</title>
 
-/* POPUP */
-#popup,#ttdPopup{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:999;}
-.popup-box{background:#1a0033;padding:20px;border-radius:16px;text-align:center;width:92%;max-width:360px;}
-#ttdCanvas{width:100%;height:180px;background:#fff;border-radius:10px;touch-action:none;}
-footer{text-align:center;font-size:12px;opacity:.6}
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background: linear-gradient(135deg,#120000,#4b0000);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  color:white;
+}
+
+/* FADE */
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(30px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* SHAKE */
+@keyframes shake{
+  0%{transform:translateX(0);}
+  25%{transform:translateX(-8px);}
+  50%{transform:translateX(8px);}
+  75%{transform:translateX(-8px);}
+  100%{transform:translateX(0);}
+}
+
+.card{
+  background:#2a0000;
+  padding:25px;
+  border-radius:16px;
+  box-shadow:0 0 30px #00000090;
+  width:90%;
+  max-width:360px;
+  text-align:center;
+}
+
+.fade{
+  animation:fadeUp .6s ease;
+}
+
+.card.shake{
+  animation:shake .4s;
+  box-shadow:0 0 40px #ff0000;
+}
+
+.card img{
+  width:100%;
+  border-radius:12px;
+  margin-bottom:8px;
+}
+
+.subtitle{
+  font-size:14px;
+  color:#ffb3b3;
+  margin-bottom:18px;
+  letter-spacing:1px;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border-radius:8px;
+  border:none;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  margin-top:14px;
+  border:none;
+  border-radius:8px;
+  background:#800000;
+  font-weight:bold;
+  color:white;
+  cursor:pointer;
+}
+
+#error{
+  margin-top:12px;
+  color:#ff9999;
+}
+
+/* POPUP LOADING */
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:99;
+}
+
+.loader{
+  width:60px;
+  height:60px;
+  border:6px solid #300;
+  border-top:6px solid red;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  100%{transform:rotate(360deg);}
+}
 </style>
 </head>
 <body>
 
-<div class="card">
-<img src="https://i.imgur.com/18g1SV8.jpeg" class="logo">
-<h1>DATA DIRI KUNJUNGAN</h1>
+<div class="card fade" id="loginCard">
+  <img src="https://i.imgur.com/clDORlz.jpeg">
+  <div class="subtitle">LOGIN FOR ACCESS</div>
 
-<input id="nama" placeholder="Nama Lengkap">
-<input id="umur" type="number" placeholder="Umur">
-<input id="alamat" placeholder="Alamat">
-<input id="hp" placeholder="Nomor HP">
-<input id="email" type="email" placeholder="Email">
-<input id="kunjungan" placeholder="Keperluan Kunjungan">
-<input id="nbidang" placeholder="Asal Bidang">
+  <input id="username" placeholder="Username">
+  <input id="password" type="password" placeholder="Password">
 
-<select id="bidang">
-<option value="">-- Bidang Tujuan --</option>
-<option>Administrasi</option>
-<option>PPO</option>
-<option>Keuangan</option>
-<option>Sarana</option>
-</select>
-
-<div id="cameraArea" style="display:none">
-<video id="video" autoplay playsinline></video>
-<button onclick="takePhoto()">📸 Ambil Foto</button>
+  <button onclick="login()">LOGIN</button>
+  <p id="error"></p>
 </div>
 
-<img id="photo">
-
-<button id="openCamBtn" onclick="openCamera()">Buka Kamera Selfie</button>
-<button id="retakeBtn" class="secondary" onclick="retakePhoto()" style="display:none">Ambil Ulang Foto</button>
-
-<button class="secondary" onclick="openTTD()">✍️ Buat Tanda Tangan</button>
-<input id="namaTTD" placeholder="Nama Penanda Tangan">
-
-<button id="sendBtn">Kirim Data</button>
-<footer>© Bagazet 2026</footer>
+<!-- WAJIB ADA -->
+<div class="popup" id="popup">
+  <div class="loader"></div>
+  <p>Checking access...</p>
 </div>
-
-<!-- POPUP HASIL -->
-<div id="popup">
-<div class="popup-box">
-<h3>📄 Surat Siap , Silahkan Cetak / Print Surat Ini, Setelahnya Harap Ke Loby Tamu Dan Antar Surat Yang Sudah Dicetak Ke Petugas Agar Bisa Dikonfirmasi Oleh Petugas Dan Segera Diantar Kebidang Tujuan.</h3>
-<button onclick="printSurat()">🖨️ Cetak</button>
-
-</div>
-</div>
-
-<!-- POPUP TTD -->
-<div id="ttdPopup">
-<div class="popup-box">
-<h3>Tanda Tangan</h3>
-<canvas id="ttdCanvas"></canvas>
-<button onclick="clearTTD()">Hapus</button>
-<button onclick="saveTTD()">Simpan</button>
-</div>
-</div>
-
-<canvas id="canvas" style="display:none"></canvas>
 
 <script>
-/* FULLSCREEN */
-window.onload=()=>{document.documentElement.requestFullscreen?.()}
-
-/* KAMERA */
-let stream,ttdData="";
-const video=document.getElementById("video");
-const canvas=document.getElementById("canvas");
-const photo=document.getElementById("photo");
-
-function openCamera(){
-navigator.mediaDevices.getUserMedia({video:{facingMode:"user"}}).then(s=>{
-stream=s;video.srcObject=s;
-cameraArea.style.display="block";
-openCamBtn.style.display="none";
-});
+function shakeError(){
+  const card = document.getElementById("loginCard");
+  card.classList.remove("shake");
+  void card.offsetWidth;
+  card.classList.add("shake");
 }
-function takePhoto(){
-canvas.width=video.videoWidth;
-canvas.height=video.videoHeight;
-canvas.getContext("2d").drawImage(video,0,0);
-photo.src=canvas.toDataURL("image/png");
-photo.style.display="block";
-cameraArea.style.display="none";
-retakeBtn.style.display="block";
-stream.getTracks().forEach(t=>t.stop());
-}
-function retakePhoto(){photo.style.display="none";retakeBtn.style.display="none";openCamera();}
-
-/* VALIDASI */
-sendBtn.onclick=()=>{
-let ids=["nama","umur","alamat","hp","email","kunjungan","bidang"];
-let valid=true;
-ids.forEach(id=>{
-let e=document.getElementById(id);
-if(!e.value){e.classList.add("error");valid=false}else e.classList.remove("error");
-});
-if(!ttdData) valid=false;
-if(valid) popup.style.display="flex";
-};
-
-/* TTD DRAW HALUS */
-const ttdCanvas=document.getElementById("ttdCanvas");
-const ctx=ttdCanvas.getContext("2d");
-let draw=false;
-
-function openTTD(){
-ttdPopup.style.display="flex";
-ttdCanvas.width=ttdCanvas.offsetWidth;
-ttdCanvas.height=180;
-ctx.lineWidth=3;
-ctx.lineCap="round";
-ctx.lineJoin="round";
-ctx.strokeStyle="#000";
-}
-
-ttdCanvas.addEventListener("pointerdown",e=>{draw=true;ctx.beginPath();ctx.moveTo(e.offsetX,e.offsetY)});
-ttdCanvas.addEventListener("pointermove",e=>{if(draw){ctx.lineTo(e.offsetX,e.offsetY);ctx.stroke()}});
-ttdCanvas.addEventListener("pointerup",()=>draw=false);
-
-function clearTTD(){ctx.clearRect(0,0,ttdCanvas.width,ttdCanvas.height)}
-function saveTTD(){ttdData=ttdCanvas.toDataURL();ttdPopup.style.display="none"}
-
-/* CETAK */
-function printSurat(){
-let w=window.open("");
-w.document.write(`
-<center>
-<img src="https://i.imgur.com/BYGCcmg.jpeg" width="80"><br>
-<h2>SURAT IZIN KUNJUNGAN BIDANG</h2>
-<p>Tanggal: ${new Date().toLocaleDateString("id-ID",{day:"2-digit",month:"long",year:"numeric"})}</p>
-<hr>
-<table width="100%">
-<tr>
-<td>
-<p>Nama: ${nama.value}</p>
-<p>Umur: ${umur.value}</p>
-<p>Alamat: ${alamat.value}</p>
-<p>No HP: ${hp.value}</p>
-<p>Email: ${email.value}</p>
-<p>Keperluan: ${kunjungan.value}</p>
-<p>Berasal Dari: ${nbidang.value}</p>
-<p>Bidang Tujuan: ${bidang.value}</p>
-<p><b>NB:</b> Surat ini resmi, wajib dipatuhi seluruh peraturan instansi, dan segala penyalahgunaan akan dikenakan sanksi tegas sesuai ketentuan hukum dan peraturan internal.Seluruh anggota wajib mematuhi seluruh peraturan, prosedur, dan tata tertib dinas secara mutlak dan konsisten tanpa pengecualian apapun, melaksanakan setiap tugas dan tanggung jawab dengan disiplin tinggi, tepat waktu, dan sesuai arahan atasan, menjaga profesionalisme, etika, dan sikap dalam setiap tindakan serta komunikasi, menggunakan fasilitas dan sumber daya dinas hanya untuk kepentingan resmi, menghindari segala bentuk penyalahgunaan, kelalaian, atau pelanggaran yang dapat merugikan institusi maupun diri sendiri, segera melaporkan setiap kendala, insiden, atau ketidaksesuaian prosedur dengan transparansi penuh, memahami bahwa setiap pelanggaran akan dikenakan sanksi tegas sesuai ketentuan yang berlaku mulai dari teguran hingga tindakan administratif atau hukum, dan menyadari bahwa kedisiplinan, ketaatan, dan tanggung jawab terhadap aturan dinas bukanlah pilihan, tetapi kewajiban mutlak demi kelancaran operasional, keamanan, dan reputasi institusi secara keseluruhan.Salam Hangat.</p>
-</td>
-<td align="center">
-<p>Foto Pengunjung:</p>
-<img src="${photo.src}" width="100">
-</td>
-</tr>
-</table>
-<br>
-<table width="100%">
-<tr>
-<td><p>TTD Kepala Dinas:</p><img src="https://i.imgur.com/I2tDNb9.jpeg" width="120"></td>
-<td><p>TTD Pengunjung:</p><img src="${ttdData}" width="120"><br><b>${namaTTD.value}</b></td>
-</tr>
-</table>
-</center>
-`);
-w.print();
-}
-
-/* PDF */
-function buatPDF(){
-const {jsPDF}=window.jspdf;
-const pdf=new jsPDF();
-const startX=20, startY=20;
-pdf.addImage("https://i.imgur.com/BYGCcmg.jpeg","JPEG",startX,startY,30,30);
-pdf.setFontSize(16);
-pdf.text("SURAT IZIN KUNJUNGAN BIDANG",60,30);
-pdf.setFontSize(10);
-pdf.text(`Tanggal: ${new Date().toLocaleDateString("id-ID",{day:"2-digit",month:"long",year:"numeric"})}`,20,45);
-pdf.line(20,48,190,48);
-
-let y=55;
-pdf.text(`Nama: ${nama.value}`,startX,y); y+=6;
-pdf.text(`Umur: ${umur.value}`,startX,y); y+=6;
-pdf.text(`Alamat: ${alamat.value}`,startX,y); y+=6;
-pdf.text(`No HP: ${hp.value}`,startX,y); y+=6;
-pdf.text(`Email: ${email.value}`,startX,y); y+=6;
-pdf.text(`Keperluan: ${kunjungan.value}`,startX,y); y+=6;
-pdf.text(`Berasal Dari: ${nbidang.value}`,startX,y); y+=6;
-pdf.text(`Bidang Tujuan: ${bidang.value}`,startX,y); y+=10;
-pdf.text("NB: Surat ini resmi, wajib dipatuhi seluruh peraturan instansi, dan segala penyalahgunaan akan dikenakan sanksi tegas sesuai ketentuan hukum dan peraturan internal.Seluruh anggota wajib mematuhi seluruh peraturan, prosedur, dan tata tertib dinas secara mutlak dan konsisten tanpa pengecualian apapun, melaksanakan setiap tugas dan tanggung jawab dengan disiplin tinggi, tepat waktu, dan sesuai arahan atasan, menjaga profesionalisme, etika, dan sikap dalam setiap tindakan serta komunikasi, menggunakan fasilitas dan sumber daya dinas hanya untuk kepentingan resmi, menghindari segala bentuk penyalahgunaan, kelalaian, atau pelanggaran yang dapat merugikan institusi maupun diri sendiri, segera melaporkan setiap kendala, insiden, atau ketidaksesuaian prosedur dengan transparansi penuh, memahami bahwa setiap pelanggaran akan dikenakan sanksi tegas sesuai ketentuan yang berlaku mulai dari teguran hingga tindakan administratif atau hukum, dan menyadari bahwa kedisiplinan, ketaatan, dan tanggung jawab terhadap aturan dinas bukanlah pilihan, tetapi kewajiban mutlak demi kelancaran operasional, keamanan, dan reputasi institusi secara keseluruhan.Salam Hangat",startX,y); y+=15;
-
-// Foto pengunjung kanan
-pdf.addImage(photo.src,"PNG",140,55,50,60);
-
-// TTD Kepala Dinas kiri
-pdf.addImage("https://i.imgur.com/I2tDNb9.jpeg","JPEG",20,y,40,20);
-// TTD Pengunjung kanan
-pdf.addImage(ttdData,"PNG",140,y,40,20);
-pdf.text(namaTTD.value,140,y+25);
-
-// Simpan file PDF (prompt nama)
-pdf.save(prompt("Nama file PDF","Surat_Kunjungan"));
-}
-
-/* SHARE */
-async function sharePDF(){
-const {jsPDF}=window.jspdf;
-const pdf=new jsPDF();
-pdf.text("SURAT IZIN KUNJUNGAN BIDANG",20,20);
-const blob=pdf.output("blob");
-const file=new File([blob],"Surat_Izin_Kunjungan.pdf",{type:"application/pdf"});
-navigator.share ? navigator.share({files:[file],title:"Surat Izin Kunjungan"}) : alert("Share tidak didukung");
-}
-
-function closePopup(){popup.style.display="none";}
 </script>
 
+<script src="script.js"></script>
 </body>
 </html>
