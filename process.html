@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Process</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="center">
+
+<div class="card">
+  <h2 id="title"></h2>
+  <input id="wa" placeholder="Masukkan nomor WhatsApp">
+  <button onclick="startProcess()">Mulai</button>
+</div>
+
+<!-- Popup loading -->
+<div class="popup" id="popup">
+  <div class="loader"></div>
+  <p id="loadingText">Tunggu 6 detik...</p>
+  <button id="backBtn" style="display:none;" onclick="backToMenu()">Kembali</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
