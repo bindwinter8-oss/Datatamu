@@ -164,6 +164,47 @@ header{
   transform:scale(1.02);
 }
 
+/* SOCIAL BUTTONS (WA & IG) */
+.social-btns{
+  margin:15px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.social-btn{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:14px;
+  border-radius:12px;
+  font-weight:bold;
+  text-decoration:none;
+  color:white;
+  transition:.25s;
+}
+
+.social-btn .icon{
+  width:24px;
+  height:24px;
+}
+
+.social-btn.wa{
+  background:#000;
+  border:2px solid #800000; /* merah maroon tipis */
+}
+.social-btn.wa:hover{
+  background:#1a0000;
+}
+
+.social-btn.ig{
+  background:#000;
+  border:2px solid #800000;
+}
+.social-btn.ig:hover{
+  background:#1a0000;
+}
+
 /* POPUP */
 .popup{
   position:fixed;
@@ -263,6 +304,18 @@ footer{
 
 <div class="attack">
   <button onclick="attack()">⚡ ATTACK</button>
+</div>
+
+<!-- SOCIAL BUTTONS -->
+<div class="social-btns">
+  <a href="https://wa.me/6285762334701?text=Tesst" target="_blank" class="social-btn wa">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WA" class="icon">
+    BAGAZ : CREATOR (WA)
+  </a>
+  <a href="https://www.instagram.com/bagazzeet?igsh=ZnltM25lNDhpejhm" target="_blank" class="social-btn ig">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="IG" class="icon">
+    BAGAZ : CREATOR (IG)
+  </a>
 </div>
 
 <div class="popup" id="popup">
