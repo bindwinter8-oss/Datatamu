@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orang Hebat</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Arial,sans-serif;
+  background:radial-gradient(circle at top,#00cfff,#000 65%);
+  color:white;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* JUDUL */
+h1{
+  margin:25px 0;
+  font-size:38px;
+  letter-spacing:3px;
+  color:#9ff;
+  text-shadow:0 0 12px #00eaff,0 0 30px #00eaff;
+}
+
+/* GRID 3x3 */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:25px;
+  width:90%;
+  max-width:900px;
+  padding-bottom:40px;
+}
+@media(max-width:768px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){h1{font-size:28px}.grid{grid-template-columns:1fr}}
+
+/* CARD */
+.card{display:flex;justify-content:center}
+.card img{
+  width:170px;
+  border-radius:14px;
+  cursor:pointer;
+  transition:.4s;
+  box-shadow:0 0 18px rgba(0,220,255,.6);
+}
+.card img:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 35px #00eaff;
+}
+
+/* POPUP */
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.8);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:99;
+}
+.popup-box{
+  background:#0b0f14;
+  display:flex;
+  gap:20px;
+  padding:22px;
+  border-radius:16px;
+  width:650px;
+  max-width:95%;
+  animation:zoom .35s ease;
+  box-shadow:0 0 40px #00eaff;
+}
+@keyframes zoom{
+  from{transform:scale(.6);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+/* FOTO POPUP */
+.popup-box img{
+  width:220px;
+  border-radius:12px;
+  box-shadow:0 0 20px #00cfff;
+}
+
+/* DATA SLIDE */
+.data{
+  opacity:0;
+  transform:translateX(40px);
+  animation:slideRight .4s ease forwards;
+  animation-delay:.25s;
+}
+@keyframes slideRight{
+  to{opacity:1;transform:translateX(0)}
+}
+
+.data h2{margin:0;color:#7ffcff}
+.data p{margin:10px 0;font-size:14px;color:#ddd}
+
+/* GAME LIST */
+.games{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:8px;
+}
+.game{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:12px;
+  background:rgba(0,200,255,.15);
+  border:1px solid #00eaff;
+  box-shadow:0 0 10px rgba(0,200,255,.4);
+}
+.game span{font-size:14px}
+
+/* RESPONSIVE POPUP */
+@media(max-width:600px){
+  .popup-box{flex-direction:column;text-align:center}
+  .games{justify-content:center}
+}
+
+/* CLOSE */
+.close{
+  position:absolute;
+  top:15px;
+  right:20px;
+  font-size:22px;
+  cursor:pointer;
+}
+.close:hover{color:red}
+</style>
+</head>
+
+<body>
+
+<h1>ORANG HEBAT</h1>
+
+<div class="grid">
+  <div class="card">
+    <img src="rnd.png" onclick="openPopup(
+      'rnd.png',
+      'RND',
+      'WEB Kesukaan: Angkasa189',
+      ['Spaceman ','High Flayer']
+    )">
+  </div>
+
+  <div class="card">
+    <img src="dika.jpg" onclick="openPopup(
+      'dika.jpg',
+      'Dika',
+      'WEB Kesukaan: Masbro 97',
+      ['Spaceman','High Flyer','Taktik Boom','Goal Crash','Bigboss Crash']
+    )">
+  </div>
+
+  <div class="card">
+    <img src="epan.jpg" onclick="openPopup(
+      'epan.jpg',
+      'Epan',
+      'WEB Kesukaan: Masbro 97',
+      ['Spaceman','High Flyer','Taktik Boom']
+    )">
+  </div>
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+  <div class="popup-box">
+    <span class="close" onclick="closePopup()">✖</span>
+    <img id="pImg">
+    <div class="data" id="dataBox">
+      <h2 id="pName"></h2>
+      <p id="pWeb"></p>
+      <div class="games" id="gameList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openPopup(img,nama,web,games){
+  pImg.src = img;
+  pName.innerText = nama;
+  pWeb.innerText = web;
+
+  gameList.innerHTML = "";
+  games.forEach(g=>{
+    const div=document.createElement("div");
+    div.className="game";
+    div.innerHTML = "<span>🎮</span>"+g;
+    gameList.appendChild(div);
+  });
+
+  dataBox.style.animation="none";
+  dataBox.offsetHeight;
+  dataBox.style.animation=null;
+
+  popup.style.display="flex";
+}
+function closePopup(){
+  popup.style.display="none";
+}
+</script>
+
+</body>
+</html>
