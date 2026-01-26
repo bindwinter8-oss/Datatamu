@@ -18,7 +18,6 @@ body{
   align-items:center;
 }
 
-/* JUDUL */
 h1{
   margin:25px 0;
   font-size:38px;
@@ -27,7 +26,6 @@ h1{
   text-shadow:0 0 12px #00eaff,0 0 30px #00eaff;
 }
 
-/* GRID 3x3 */
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -39,7 +37,6 @@ h1{
 @media(max-width:768px){.grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:480px){h1{font-size:28px}.grid{grid-template-columns:1fr}}
 
-/* CARD */
 .card{display:flex;justify-content:center}
 .card img{
   width:170px;
@@ -79,14 +76,12 @@ h1{
   to{transform:scale(1);opacity:1}
 }
 
-/* FOTO POPUP */
 .popup-box img{
   width:220px;
   border-radius:12px;
   box-shadow:0 0 20px #00cfff;
 }
 
-/* DATA SLIDE */
 .data{
   opacity:0;
   transform:translateX(40px);
@@ -100,7 +95,6 @@ h1{
 .data h2{margin:0;color:#7ffcff}
 .data p{margin:10px 0;font-size:14px;color:#ddd}
 
-/* GAME LIST */
 .games{
   display:flex;
   flex-wrap:wrap;
@@ -118,15 +112,71 @@ h1{
   border:1px solid #00eaff;
   box-shadow:0 0 10px rgba(0,200,255,.4);
 }
-.game span{font-size:14px}
 
-/* RESPONSIVE POPUP */
+/* SITUS TERCINTA */
+.site-box{
+  margin-top:14px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(0,180,255,.15);
+  border:1px solid #00eaff;
+  box-shadow:0 0 12px rgba(0,200,255,.4);
+  text-align:center;
+}
+.site-box small{
+  color:#9ff;
+  font-size:12px;
+}
+.site-name{
+  margin:6px 0 10px;
+  font-weight:bold;
+  color:#00eaff;
+}
+.site-btn{
+  display:inline-block;
+  padding:8px 14px;
+  border-radius:20px;
+  background:#00cfff;
+  color:#000;
+  font-weight:bold;
+  text-decoration:none;
+  box-shadow:0 0 12px rgba(0,200,255,.8);
+  transition:.3s;
+}
+.site-btn:hover{
+  transform:scale(1.08);
+  box-shadow:0 0 20px rgba(0,200,255,1);
+}
+
+/* WA BUTTON */
+@keyframes shake{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-2px)}
+  50%{transform:translateX(2px)}
+  75%{transform:translateX(-2px)}
+  100%{transform:translateX(0)}
+}
+.wa-btn{
+  margin-top:16px;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 18px;
+  border-radius:30px;
+  background:#25D366;
+  color:#000;
+  font-weight:bold;
+  text-decoration:none;
+  box-shadow:0 0 18px rgba(37,211,102,.9);
+  animation:shake 1.2s infinite;
+}
+.wa-btn svg{width:22px;height:22px;fill:#000}
+
 @media(max-width:600px){
   .popup-box{flex-direction:column;text-align:center}
   .games{justify-content:center}
 }
 
-/* CLOSE */
 .close{
   position:absolute;
   top:15px;
@@ -143,70 +193,91 @@ h1{
 <h1>TOP 3 SERING DEPO TAPI JARANG WD</h1>
 
 <div class="grid">
+
   <div class="card">
     <img src="rnd.png" onclick="openPopup(
-      'rnd.png',
-      'RND',
-      'WEB Kesukaan: Angkasa189',
-      ['Spaceman ','High Flayer']
+      'rnd.png','Randi','WEB Kesukaan: Angkasa189',
+      ['Spaceman','High Flayer'],
+      'RANDI PRES BIRU',
+      'https://wa.me/6282267311134?text=STOP%20JUDOL%20KONTOL%20MEMEK',
+      'ANGKASA 189',
+      'https://share.google/IiwiHyC3ODYnkma9E'
     )">
   </div>
 
   <div class="card">
     <img src="dika.jpg" onclick="openPopup(
-      'dika.jpg',
-      'Dika',
-      'WEB Kesukaan: Masbro 97',
-      ['Spaceman','High Flyer','Taktik Boom','Goal Crash','Bigboss Crash']
+      'dika.jpg','Radika','WEB Kesukaan: Masbro 97',
+      ['Spaceman','High Flyer','Taktik Boom','Goal Crash','Bigboss Crash'],
+      'RADIKA SI TAMAK',
+      'https://wa.me/62895405360518?text=STOP%20JUDOL%20KONTOL%20MEMEK',
+      'MASBRO 97',
+      'https://share.google/bDdTfVBnAWD0jzueC'
     )">
   </div>
 
   <div class="card">
     <img src="epan.jpg" onclick="openPopup(
-      'epan.jpg',
-      'Epan',
-      'WEB Kesukaan: Masbro 97',
-      ['Spaceman','High Flyer','Taktik Boom']
+      'epan.jpg','Evan','WEB Kesukaan: Masbro 97',
+      ['Spaceman','High Flyer','Taktik Boom'],
+      'EVAN MODAL KECIL',
+      'https://wa.me/6281373460740?text=STOP%20JUDOL%20KONTOL%20MEMEK',
+      'MASBRO 97',
+      'https://share.google/bDdTfVBnAWD0jzueC'
     )">
   </div>
+
 </div>
 
-<!-- POPUP -->
 <div class="popup" id="popup">
   <div class="popup-box">
     <span class="close" onclick="closePopup()">✖</span>
     <img id="pImg">
-    <div class="data" id="dataBox">
+    <div class="data">
       <h2 id="pName"></h2>
       <p id="pWeb"></p>
       <div class="games" id="gameList"></div>
+
+      <div class="site-box">
+        <small>SITUS TERCINTA</small>
+        <div class="site-name" id="siteName"></div>
+        <a id="siteBtn" class="site-btn" target="_blank">BUKA SITUS</a>
+      </div>
+
+      <a id="waBtn" class="wa-btn" target="_blank">
+        <svg viewBox="0 0 32 32">
+          <path d="M16 3C9.37 3 4 8.37 4 15c0 2.35.69 4.53 1.87 6.37L4 29l7.78-1.83A11.93 11.93 0 0016 27c6.63 0 12-5.37 12-12S22.63 3 16 3z"/>
+        </svg>
+        <span id="waName"></span>
+      </a>
+
     </div>
   </div>
 </div>
 
 <script>
-function openPopup(img,nama,web,games){
+function openPopup(img,nama,web,games,waNama,waLink,siteNama,siteLink){
   pImg.src = img;
   pName.innerText = nama;
   pWeb.innerText = web;
 
-  gameList.innerHTML = "";
+  gameList.innerHTML="";
   games.forEach(g=>{
-    const div=document.createElement("div");
-    div.className="game";
-    div.innerHTML = "<span>🎮</span>"+g;
-    gameList.appendChild(div);
+    const d=document.createElement("div");
+    d.className="game";
+    d.innerHTML="<span>🎮</span>"+g;
+    gameList.appendChild(d);
   });
 
-  dataBox.style.animation="none";
-  dataBox.offsetHeight;
-  dataBox.style.animation=null;
+  siteName.innerText = siteNama;
+  siteBtn.href = siteLink;
+
+  waBtn.href = waLink;
+  waName.innerText = waNama;
 
   popup.style.display="flex";
 }
-function closePopup(){
-  popup.style.display="none";
-}
+function closePopup(){popup.style.display="none";}
 </script>
 
 </body>
